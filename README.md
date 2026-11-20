@@ -1,16 +1,6 @@
-# نظام الإنذار المبكر الذكي للتسرب الدراسي — Streamlit Cloud
+# نظام الإنذار المبكر للتعثر الأكاديمي
+افتح الفرع في GitHub Codespaces. بعد التثبيت سيطلب الخادم بيانات العرض الاصطناعية من مولّد المشروع ويدرّب النموذج عليها. افتح المنفذ 8000. لعرض كلمة المرور الخاصة بحساب admin داخل طرفية مساحة التطوير استخدم:
 
-نسخة MVP جاهزة للنشر والعرض الأكاديمي.
+    cat ~/.ews-admin
 
-## التشغيل
-- نقطة الدخول: `app.py`
-- بيانات تجريبية: `data/students_demo.csv`
-- النماذج: XGBoost وLogistic Regression
-- التفسير: SHAP
-- الواجهة: Streamlit
-
-## النشر على Streamlit Community Cloud
-Repository: `GarallahAlshami/Garallah2`
-Main file: `app.py`
-
-> البيانات الحالية صناعية لأغراض المحاكاة الأكاديمية، وليست بيانات طلاب حقيقية.
+للتشغيل المحلي، ثبّت requirements.txt واضبط EWS_ADMIN_PASSWORD وEWS_ADVISOR_PASSWORD قبل تشغيل python run.py --setup.

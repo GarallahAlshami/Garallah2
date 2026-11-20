@@ -1,8 +1,35 @@
-streamlit==1.48.0
-pandas==2.3.2
-numpy==2.2.6
-scikit-learn==1.7.1
-xgboost==3.0.4
-shap==0.48.0
-joblib==1.5.1
-matplotlib==3.10.5
+# ==========================================================
+#  نظام إنذار مبكر ذكي للحد من تسرب الطالب — المتطلبات
+#  Python 3.10 أو أحدث
+#  التثبيت:  pip install -r requirements.txt
+# ==========================================================
+
+# --- الخادم وواجهة البرمجة
+fastapi>=0.110
+uvicorn[standard]>=0.27
+python-multipart>=0.0.9
+pydantic>=2.6
+email-validator>=2.1
+
+# --- قاعدة البيانات
+SQLAlchemy>=2.0
+
+# --- تحليل البيانات وتعلم الآلة
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3
+xgboost>=2.0
+joblib>=1.3
+
+# --- الذكاء الاصطناعي القابل للتفسير
+shap>=0.44
+matplotlib>=3.10
+
+# --- تقارير PDF ودعم اللغة العربية
+reportlab>=4.0
+arabic-reshaper>=3.0
+python-bidi>=0.4.2
+
+# --- الاختبارات
+pytest>=8.0
+httpx>=0.26

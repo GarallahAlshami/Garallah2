@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نظام إنذار مبكر ذكي — لوحة التحكم</title>
+  <link rel="stylesheet" href="/static/css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
+</head>
+<body>
+<div class="layout">
+  <!-- ============================ الشريط الجانبي ============================ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <strong>نظام إنذار مبكر ذكي</strong>
+      <span>للحد من تسرب الطالب</span>
+    </div>
+    <nav class="nav" id="nav">
+      <div class="nav-section">الرئيسية</div>
+      <button class="nav-item active" data-page="dashboard">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        لوحة التحكم
+      </button>
+
+      <div class="nav-section">الطلاب والتنبؤ</div>
+      <button class="nav-item" data-page="students">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+        إدارة الطلاب
+      </button>
+      <button class="nav-item" data-page="predict">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+        التنبؤ بخطر التسرب
+      </button>
+      <button class="nav-item" data-page="shap">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-6 4 3 5-8"/></svg>
+        التفسير (SHAP)
+      </button>
+      <button class="nav-item" data-page="batch">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        التحليل الجماعي
+      </button>
+
+      <div class="nav-section">التحليل والتقارير</div>
+      <button class="nav-item" data-page="models">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+        مقارنة النماذج
+      </button>
+      <button class="nav-item" data-page="reports">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        مركز التقارير
+      </button>
+
+      <div class="nav-section" data-admin hidden>الإدارة</div>
+      <button class="nav-item" data-page="users" data-admin hidden>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+        إدارة المستخدمين
+      </button>
+      <button class="nav-item" data-page="logs" data-admin hidden>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>
+        سجل النظام
+      </button>
+    </nav>
+    <div class="sidebar-foot">
+      نموذج أكاديمي أولي — الإصدار 1.0.0
+    </div>
+  </aside>
+
+  <!-- ============================ المحتوى ============================ -->
+  <div class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:.6rem">
+        <button class="btn btn-sm menu-toggle" id="menuToggle" aria-label="القائمة">☰</button>
+        <span class="topbar-title" id="pageTitle">لوحة التحكم</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-sm" id="refreshBtn">تحديث</button>
+        <div class="user-chip">
+          <span class="avatar" id="userAvatar">؟</span>
+          <span class="uname"><strong id="userName">—</strong> · <span id="userRole" class="muted"></span></span>
+        </div>
+        <button class="btn btn-sm" id="logoutBtn">خروج</button>
+      </div>
+    </header>
+
+    <main class="content" id="content">
+
+      <!-- ==================== لوحة التحكم ==================== -->
+      <section class="page active" id="page-dashboard">
+        <div class="page-head">
+          <h1>لوحة المرشد الأكاديمي</h1>
+          <p>نظرة شاملة على مؤشرات الطلاب ومستويات خطر التسرب.</p>
+        </div>
+        <nav class="quick-links" aria-label="مهام المرشد"><button class="btn btn-primary" data-goto="students">فتح سجل الطلاب</button><button class="btn" data-goto="predict">تقييم حالة فردية</button><button class="btn" data-goto="reports">فتح التقارير</button></nav><div id="modelWarning" class="alert alert-warn" hidden></div>
+        <div class="grid grid-4" id="statCards"></div>
+
+        <div class="grid grid-2">
+          <div class="card">
+            <div class="card-head"><h3>توزيع مستويات الخطورة</h3></div>
+            <div class="chart-box"><canvas id="chartRisk"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>الطلاب حسب التخصص</h3></div>
+            <div class="chart-box"><canvas id="chartMajor"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>توزيع المعدل التراكمي</h3></div>
+            <div class="chart-box"><canvas id="chartGpa"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>توزيع نسب الحضور</h3></div>
+            <div class="chart-box"><canvas id="chartAttendance"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>مستوى التفاعل الإلكتروني</h3></div>
+            <div class="chart-box"><canvas id="chartEngagement"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>الخطورة حسب السنة الدراسية</h3></div>
+            <div class="chart-box"><canvas id="chartYear"></canvas></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>أعلى الطلاب خطورة</h3>
+            <button class="btn btn-sm btn-soft" data-goto="students">عرض كل الطلاب</button>
+          </div>
+          <div class="table-wrap"><table class="data" id="topRiskTable"></table></div>
+        </div>
+      </section>
+
+      <!-- ==================== إدارة الطلاب ==================== -->
+      <section class="page" id="page-students">
+        <div class="page-head">
+          <h1>إدارة الطلاب</h1>
+          <p>إضافة وتعديل وحذف الطلاب، والبحث وعرض الملفات والسجلات الأكاديمية.</p>
+        </div>
+        <div class="card">
+          <div class="toolbar">
+            <input type="search" id="studentSearch" aria-label="البحث برقم الطالب أو الاسم" placeholder="بحث برقم الطالب أو الاسم..." />
+            <select id="filterRisk" aria-label="مستوى الخطر">
+              <option value="">كل مستويات الخطورة</option>
+              <option value="low">منخفض</option>
+              <option value="medium">متوسط</option>
+              <option value="high">مرتفع</option>
+            </select>
+            <select id="filterMajor" aria-label="التخصص"><option value="">كل التخصصات</option></select>
+            <select id="pageSize" aria-label="عدد السجلات في الصفحة">
+              <option value="10">10 لكل صفحة</option>
+              <option value="20" selected>20 لكل صفحة</option>
+              <option value="50">50 لكل صفحة</option>
+            </select>
+            <button class="btn btn-sm" id="clearStudentFilters">مسح المرشحات</button><span class="spacer"></span>
+            <button class="btn btn-sm" id="exportStudentsBtn">تصدير CSV</button>
+            <button class="btn btn-sm btn-soft" id="predictAllBtn">تقييم كل الطلاب</button>
+            <button class="btn btn-sm btn-primary" id="addStudentBtn">+ إضافة طالب</button>
+          </div>
+          <div class="table-wrap"><table class="data" id="studentsTable"></table></div>
+          <div class="pagination" id="studentsPagination"></div>
+        </div>
+      </section>
+
+      <!-- ==================== التنبؤ ==================== -->
+      <section class="page" id="page-predict">
+        <div class="page-head">
+          <h1>التنبؤ بخطر التسرب</h1>
+          <p>اختر طالبًا مسجّلًا أو أدخل بيانات يدويًا للحصول على التنبؤ والاحتمال ومستوى الخطورة مع تفسير SHAP.</p>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>تنبؤ لطالب مسجّل</h3></div>
+          <div class="toolbar">
+            <input type="search" id="predictStudentId" placeholder="أدخل رقم الطالب، مثال: STU202100001" />
+            <button class="btn btn-primary btn-sm" id="runPredictBtn">تشغيل التنبؤ</button>
+            <span class="spacer"></span>
+            <button class="btn btn-sm" id="pickStudentBtn">اختيار من القائمة</button>
+          </div>
+          <div id="predictResult"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>تنبؤ يدوي سريع</h3>
+            <button class="btn btn-sm" id="fillSampleBtn">تعبئة بيانات نموذجية</button>
+          </div>
+          <form id="manualForm"><div class="form-grid" id="manualFields"></div>
+            <div style="margin-top:.9rem">
+              <button type="submit" class="btn btn-primary">تنبؤ بالبيانات المُدخلة</button>
+            </div>
+          </form>
+          <div id="manualResult"></div>
+        </div>
+      </section>
+
+      <!-- ==================== SHAP ==================== -->
+      <section class="page" id="page-shap">
+        <div class="page-head">
+          <h1>الذكاء الاصطناعي القابل للتفسير — SHAP</h1>
+          <p>فهم سبب قرار النموذج: العوامل التي رفعت الخطر، والعوامل التي خفّضته، ومقدار تأثير كل متغيّر.</p>
+        </div>
+
+        <div class="note-box">
+          <strong>كيف تُقرأ قيم SHAP؟</strong>
+          كل متغيّر يحصل على قيمة تُمثّل مقدار دفعه لقرار النموذج. القيمة الموجبة (باللون الأحمر) تعني أن
+          المتغيّر <strong>رفع</strong> احتمال تسرب الطالب، والقيمة السالبة (باللون الأخضر) تعني أنه
+          <strong>خفّض</strong> هذا الاحتمال. وكلما زاد طول الشريط زاد تأثير المتغيّر على القرار النهائي.
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>الأهمية العامة للخصائص (SHAP Feature Importance)</h3>
+            <button class="btn btn-sm" id="reloadImportanceBtn">إعادة الحساب</button>
+          </div>
+          <p class="muted small">متوسط القيمة المطلقة لقيم SHAP عبر عيّنة من بيانات التدريب — يوضح أكثر المتغيرات تأثيرًا في النموذج ككل.</p>
+          <div class="chart-box tall"><canvas id="chartImportance"></canvas></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>تفسير فردي لطالب (SHAP Waterfall)</h3></div>
+          <div class="toolbar">
+            <input type="search" id="shapStudentId" placeholder="أدخل رقم الطالب" />
+            <button class="btn btn-primary btn-sm" id="runShapBtn">عرض التفسير</button>
+          </div>
+          <div id="shapResult"></div>
+        </div>
+      </section>
+
+      <!-- ==================== التحليل الجماعي ==================== -->
+      <section class="page" id="page-batch">
+        <div class="page-head">
+          <h1>التحليل الجماعي (Batch Analysis)</h1>
+          <p>ارفع ملف CSV يحتوي على بيانات عدة طلاب ليقوم النظام بتحليلها آليًا.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>مسار المعالجة</h3></div>
+          <div class="pipeline-flow">
+            <span class="pipeline-step">CSV</span><span class="pipeline-arrow">←</span>
+            <span class="pipeline-step">التحقق Validation</span><span class="pipeline-arrow">←</span>
+            <span class="pipeline-step">التنظيف Cleaning</span><span class="pipeline-arrow">←</span>
+            <span class="pipeline-step">المعالجة Preprocessing</span><span class="pipeline-arrow">←</span>
+            <span class="pipeline-step">XGBoost</span><span class="pipeline-arrow">←</span>
+            <span class="pipeline-step">تصنيف الخطورة</span><span class="pipeline-arrow">←</span>
+            <span class="pipeline-step">SHAP</span><span class="pipeline-arrow">←</span>
+            <span class="pipeline-step">النتائج</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>رفع الملف</h3>
+            <button class="btn btn-sm" id="templateBtn">تنزيل قالب CSV</button>
+          </div>
+          <div class="dropzone" id="dropzone">
+            <strong>اسحب ملف CSV هنا أو اضغط للاختيار</strong>
+            <span class="muted small">الحد الأقصى 10 ميجابايت — صيغة CSV فقط</span>
+            <input type="file" id="batchFile" accept=".csv,text/csv" hidden />
+          </div>
+          <div id="batchStatus" style="margin-top:.9rem"></div>
+        </div>
+
+        <div id="batchResults" hidden>
+          <div class="grid grid-4" id="batchStats"></div>
+          <div class="card">
+            <div class="card-head">
+              <h3>نتائج التحليل</h3>
+              <button class="btn btn-sm btn-primary" id="exportBatchBtn">تصدير النتائج CSV</button>
+            </div>
+            <div class="toolbar">
+              <input type="search" id="batchSearch" placeholder="بحث برقم الطالب..." />
+              <select id="batchFilter">
+                <option value="">كل المستويات</option>
+                <option value="low">منخفض</option>
+                <option value="medium">متوسط</option>
+                <option value="high">مرتفع</option>
+              </select>
+              <select id="batchSort">
+                <option value="probability_desc">الاحتمال (تنازلي)</option>
+                <option value="probability_asc">الاحتمال (تصاعدي)</option>
+                <option value="student_id_asc">رقم الطالب (تصاعدي)</option>
+                <option value="student_id_desc">رقم الطالب (تنازلي)</option>
+              </select>
+              <span class="spacer"></span>
+              <span class="muted small" id="batchCount"></span>
+            </div>
+            <div class="table-wrap"><table class="data" id="batchTable"></table></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>تفسير SHAP للدفعة</h3></div>
+            <div id="batchShap"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== مقارنة النماذج ==================== -->
+      <section class="page" id="page-models">
+        <div class="page-head">
+          <h1>مقارنة النماذج</h1>
+          <p>Logistic Regression مقابل XGBoost وفق مقاييس الأداء المعتمدة.</p>
+        </div>
+        <div id="modelsContent"></div>
+      </section>
+
+      <!-- ==================== التقارير ==================== -->
+      <section class="page" id="page-reports">
+        <div class="page-head">
+          <h1>مركز التقارير</h1>
+          <p>إنشاء وتصدير تقارير النظام بصيغتي CSV و PDF.</p>
+        </div>
+        <div class="grid grid-3" id="reportCards"></div>
+        <div class="card">
+          <div class="card-head"><h3>سجل التقارير المُنشأة</h3></div>
+          <div class="table-wrap"><table class="data" id="reportsTable"></table></div>
+        </div>
+      </section>
+
+      <!-- ==================== المستخدمون ==================== -->
+      <section class="page" id="page-users">
+        <div class="page-head">
+          <h1>إدارة المستخدمين</h1>
+          <p>إضافة المستخدمين وتعديل بياناتهم وتحديد الأدوار والصلاحيات.</p>
+        </div>
+        <div class="card">
+          <div class="toolbar">
+            <input type="search" id="userSearch" placeholder="بحث بالاسم أو البريد..." />
+            <span class="spacer"></span>
+            <button class="btn btn-sm btn-primary" id="addUserBtn">+ إضافة مستخدم</button>
+          </div>
+          <div class="table-wrap"><table class="data" id="usersTable"></table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>مصفوفة الصلاحيات</h3></div>
+          <div class="table-wrap"><table class="data" id="rolesTable"></table></div>
+        </div>
+      </section>
+
+      <!-- ==================== السجل ==================== -->
+      <section class="page" id="page-logs">
+        <div class="page-head">
+          <h1>سجل النظام</h1>
+          <p>تتبّع العمليات الحساسة التي تمت داخل النظام.</p>
+        </div>
+        <div class="card">
+          <div class="table-wrap"><table class="data" id="logsTable"></table></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<div id="modalRoot"></div>
+
+<script src="/static/js/vendor/chart.umd.js"></script>
+<script src="/static/js/api.js"></script>
+<script src="/static/js/charts.js"></script>
+<script src="/static/js/pages/dashboard.js"></script>
+<script src="/static/js/pages/students.js"></script>
+<script src="/static/js/pages/predict.js"></script>
+<script src="/static/js/pages/shap.js"></script>
+<script src="/static/js/pages/batch.js"></script>
+<script src="/static/js/pages/models.js"></script>
+<script src="/static/js/pages/reports.js"></script>
+<script src="/static/js/pages/users.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>
